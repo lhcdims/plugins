@@ -693,6 +693,17 @@ public class CameraPlugin implements MethodCallHandler {
 
       try {
         recordingVideo = false;
+        
+        // Added by Ken
+        try {
+          Camera.this.cameraCaptureSession.stopRepeating();
+          Camera.this.cameraCaptureSession.abortCaptures();
+          closeCaptureSession();
+        } catch (CameraAccessException e) {
+          result.error("cameraException", e.getMessage(), null);
+        }
+        // Finish Added by Ken
+        
         mediaRecorder.stop();
         mediaRecorder.reset();
         startPreview();
